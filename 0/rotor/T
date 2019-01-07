@@ -1,0 +1,59 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  4.x                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0/rotor";
+    object      T;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [ 0 0 0 1 0 0 0 ];
+
+internalField   uniform 351;
+
+boundaryField
+{
+    rotor_adiabatic
+    {
+        type            zeroGradient;
+    }
+    rotor_periodic
+    {
+        type            symmetry;
+    }
+    rotor_housing_interface
+    {
+        type            compressible::turbulentTemperatureCoupledBaffleMixed;
+        value           uniform 351;
+        kappaMethod     solidThermo;
+        kappaName       none;
+        Tnbr            T;
+    }
+    rotor_airint_interface
+    {
+        type            compressible::turbulentTemperatureCoupledBaffleMixed;
+        value           uniform 351;
+        kappaMethod     solidThermo;
+        kappaName       none;
+        Tnbr            T;
+    }
+    rotor_magnets_interface
+    {
+        type            compressible::turbulentTemperatureCoupledBaffleMixed;
+        value           uniform 351;
+        kappaMethod     solidThermo;
+        kappaName       none;
+        Tnbr            T;
+    }
+}
+
+
+// ************************************************************************* //

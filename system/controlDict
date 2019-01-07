@@ -1,0 +1,208 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  4.1                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     chtMultiRegionSimpleFoam;
+
+startFrom       latestTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         200000;
+
+deltaT          1;
+
+writeControl    timeStep;
+
+writeInterval   500;
+
+purgeWrite      0;
+
+writeFormat     binary;
+
+writePrecision  8;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable true;
+
+libs ("libsimpleSwakFunctionObjects.so");
+
+functions
+{
+
+airPressureDrop
+    {
+        type patchAverage;
+        region fluid;
+        fields (
+            p
+        );
+        patches (
+            inlet1
+            inlet2
+            inlet3
+            inlet4
+            outlet1
+            outlet2
+            outlet3
+            outlet4
+        );
+        verbose true;
+    }
+airTemp
+    {
+        type patchAverage;
+        region fluid;
+        fields (
+            T
+        );
+        patches (
+            inlet1
+            inlet2
+            inlet3
+            inlet4
+            outlet1
+            outlet2
+            outlet3
+            outlet4
+        );
+        verbose true;
+    }
+
+copper_to_stator_heat_flux    {
+        type patchExpression;
+        region     copper;
+        writeControl   timeStep;
+        writeInterval    1;
+        accumulations (
+            sum
+        );
+        patches (
+            copper_stator_interface
+        );
+        expression "180*snGrad(T)*area()";
+        verbose true;
+    }
+copper_to_potting_heat_flux    {
+        type patchExpression;
+        region     copper;
+        writeControl   timeStep;
+        writeInterval    1;
+        accumulations (
+            sum
+        );
+        patches (
+            copper_potting_interface
+        );
+        expression "180*snGrad(T)*area()";
+        verbose true;
+    }
+magnets_to_rotor_heat_flux    {
+        type patchExpression;
+        region     magnets;
+        writeControl   timeStep;
+        writeInterval    1;
+        accumulations (
+            sum
+        );
+        patches (
+            magnets_rotor_interface
+        );
+        expression "7.6*snGrad(T)*area()";
+        verbose true;
+    }
+magnets_to_airint_heat_flux    {
+        type patchExpression;
+        region     magnets;
+        writeControl   timeStep;
+        writeInterval    1;
+        accumulations (
+            sum
+        );
+        patches (
+            magnets_airint_interface
+        );
+        expression "7.6*snGrad(T)*area()";
+        verbose true;
+    }
+stator_airint_heat_flux    {
+        type patchExpression;
+        region     stator;
+        writeControl   timeStep;
+        writeInterval    1;
+        accumulations (
+            sum
+        );
+        patches (
+            stator_airint_interface
+        );
+        expression "27*snGrad(T)*area()";
+        verbose true;
+    }
+stator_copper_heat_flux    {
+        type patchExpression;
+        region     stator;
+        writeControl   timeStep;
+        writeInterval    1;
+        accumulations (
+            sum
+        );
+        patches (
+            stator_copper_interface
+        );
+        expression "27*snGrad(T)*area()";
+        verbose true;
+    }
+stator_housing_heat_flux    {
+        type patchExpression;
+        region     stator;
+        writeControl   timeStep;
+        writeInterval    1;
+        accumulations (
+            sum
+        );
+        patches (
+            stator_housing_interface
+        );
+        expression "27*snGrad(T)*area()";
+        verbose true;
+    }
+stator_potting_heat_flux    {
+        type patchExpression;
+        region     stator;
+        writeControl   timeStep;
+        writeInterval    1;
+        accumulations (
+            sum
+        );
+        patches (
+            stator_potting_interface
+        );
+        expression "27*snGrad(T)*area()";
+        verbose true;
+    }
+}
+
+
+
+// ************************************************************************* //

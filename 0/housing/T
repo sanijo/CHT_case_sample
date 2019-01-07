@@ -1,0 +1,75 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  4.x                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0/housing";
+    object      T;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [ 0 0 0 1 0 0 0 ];
+
+internalField   uniform 351;
+
+boundaryField
+{
+    housing_periodic
+    {
+        type            symmetry;
+    }
+    housing_adiabatic
+    {
+        type            zeroGradient;
+    }
+    housing_rotor_interface
+    {
+        type            compressible::turbulentTemperatureCoupledBaffleMixed;
+        value           uniform 351;
+        kappaMethod     solidThermo;
+        kappaName       none;
+        Tnbr            T;
+    }
+    housing_fluid_interface
+    {
+        type            compressible::turbulentTemperatureCoupledBaffleMixed;
+        value           uniform 351;
+        kappaMethod     solidThermo;
+        kappaName       none;
+        Tnbr            T;
+    }
+    housing_airint_interface
+    {
+        type            compressible::turbulentTemperatureCoupledBaffleMixed;
+        value           uniform 351;
+        kappaMethod     solidThermo;
+        kappaName       none;
+        Tnbr            T;
+    }
+    housing_stator_interface
+    {
+        type            compressible::turbulentTemperatureCoupledBaffleMixed;
+        value           uniform 351;
+        kappaMethod     solidThermo;
+        kappaName       none;
+        Tnbr            T;
+    }
+    housing_potting_interface
+    {
+        type            compressible::turbulentTemperatureCoupledBaffleMixed;
+        value           uniform 351;
+        kappaMethod     solidThermo;
+        kappaName       none;
+        Tnbr            T;
+    }
+}
+
+
+// ************************************************************************* //
