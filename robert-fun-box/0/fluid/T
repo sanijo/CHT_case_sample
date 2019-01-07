@@ -1,0 +1,47 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.0                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0/fluid";
+    object      T;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 315;
+
+boundaryField
+{
+    fluid_interface
+    {
+        type            compressible::turbulentTemperatureCoupledBaffleMixed;
+        Tnbr            T;
+        kappaMethod     fluidThermo;
+        value           uniform 315;
+    }
+    inlet
+    {
+        type            fixedValue;
+        value           uniform 313;
+    }
+    "(outlet|walls|sides)"
+    {
+        type            zeroGradient;
+    }
+//    sides
+//    {
+//        type            symmetryPlane;
+//    }
+}
+
+
+// ************************************************************************* //

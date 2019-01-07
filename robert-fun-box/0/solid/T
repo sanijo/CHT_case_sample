@@ -1,0 +1,49 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.0                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0/solid";
+    object      T;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 315;
+
+boundaryField
+{
+    solid_interface
+    {
+        type            compressible::turbulentTemperatureCoupledBaffleMixed;
+        value           uniform 332;
+        Tnbr            T;
+        kappaMethod     solidThermo;
+    }
+    heat_source
+    {
+        type            externalWallHeatFluxTemperature;
+        mode            power;
+        Q               240;                 // Power / [W]
+        value           uniform 365;         // Initial temperature / [K]
+        kappaMethod     solidThermo;
+    }
+    solid_walls
+    {
+        type            zeroGradient;
+//        type            adiabatic;
+//        K               k;
+//        value           uniform 333;
+    }
+}
+
+
+// ************************************************************************* //
