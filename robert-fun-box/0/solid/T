@@ -32,7 +32,7 @@ boundaryField
     {
         type            externalWallHeatFluxTemperature;
         mode            power;
-        Q               240;                 // Power / [W]
+        q               240;                 // Power / [W]
         value           uniform 365;         // Initial temperature / [K]
         kappaMethod     solidThermo;
     }
